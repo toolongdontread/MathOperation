@@ -1,5 +1,5 @@
 # MathOperationTest
-Select an operation and calculate the answer
+This is my first C++ program with GUI. Select an operation and calculate the answer.
 
 ## How to build
 My environment:
