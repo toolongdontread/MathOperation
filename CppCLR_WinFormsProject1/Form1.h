@@ -1,4 +1,7 @@
 #pragma once
+#include <ctype.h>
+#include <string>
+
 
 namespace CppCLRWinFormsProject {
 
@@ -8,6 +11,7 @@ namespace CppCLRWinFormsProject {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace std;
 
 	/// <summary>
 	/// Summary for Form1
@@ -30,7 +34,7 @@ namespace CppCLRWinFormsProject {
 			return c;
 		}
 		int inverseModulo(int a, int b) {
-			if (a < 0 || b <= 0 || a == b) return 0;
+			if (a < 0 || b <= 0 || b%a == 0 || b < a) return 0;
 			int c = 0;
 			while (a * c % b != 1) c++;
 			return c;
@@ -63,7 +67,7 @@ namespace CppCLRWinFormsProject {
 	private: System::Windows::Forms::RadioButton^ radioButton2;
 	private: System::Windows::Forms::RadioButton^ radioButton1;
 	private: System::ComponentModel::BackgroundWorker^ backgroundWorker1;
-	private: System::Windows::Forms::Label^ label1;
+
 
 
 	protected:
@@ -93,7 +97,6 @@ namespace CppCLRWinFormsProject {
 			this->radioButton2 = (gcnew System::Windows::Forms::RadioButton());
 			this->radioButton1 = (gcnew System::Windows::Forms::RadioButton());
 			this->backgroundWorker1 = (gcnew System::ComponentModel::BackgroundWorker());
-			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->groupBox1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -213,23 +216,11 @@ namespace CppCLRWinFormsProject {
 			this->radioButton1->UseVisualStyleBackColor = true;
 			this->radioButton1->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButton1_Checked);
 			// 
-			// label1
-			// 
-			this->label1->AutoSize = true;
-			this->label1->ForeColor = System::Drawing::Color::Red;
-			this->label1->Location = System::Drawing::Point(32, 373);
-			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(388, 26);
-			this->label1->TabIndex = 12;
-			this->label1->Text = L"Warning: If you enter non-digit character in the textbox, the program will explod"
-				L"e! \nIf you don\'t trust me, try it! Good luck = ]";
-			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(484, 461);
-			this->Controls->Add(this->label1);
 			this->Controls->Add(this->groupBox1);
 			this->Controls->Add(this->label6);
 			this->Controls->Add(this->label5);
@@ -261,13 +252,71 @@ namespace CppCLRWinFormsProject {
 	}
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 		int result;
-		if (radioButton1->Checked == true) {
-			result = gcd(System::Convert::ToInt32(textBox1->Text), System::Convert::ToInt32(textBox2->Text));
+		string isNotDigit = "100";
+		string emptyString = "101";
+		string emptyOpr = "102";
+		try {
+			if (radioButton1->Checked == false && radioButton2->Checked == false) {
+				throw(emptyOpr);
+			}
+			else if (radioButton1->Checked == true) {
+				if (textBox1->Text->Length < 1 || textBox2->Text->Length < 1) {
+					throw(emptyString);
+				}
+				for (int i = 0;i < textBox1->Text->Length;i++) {
+					if (isdigit(textBox1->Text[i])) {
+						continue;
+					}
+					else {
+						throw(isNotDigit);
+					}
+				}
+				for (int j = 0;j < textBox2->Text->Length;j++) {
+					if (isdigit(textBox2->Text[j])) {
+						continue;
+					}
+					else {
+						throw(isNotDigit);
+					}
+				}
+				result = gcd(System::Convert::ToInt32(textBox1->Text), System::Convert::ToInt32(textBox2->Text));
+			}
+
+			else if (radioButton2->Checked == true) {
+				if (textBox1->Text->Length < 1 || textBox2->Text->Length < 1) {
+					throw(emptyString);
+				}
+				for (int i = 0;i < textBox1->Text->Length;i++) {
+					if (isdigit(textBox1->Text[i])) {
+						continue;
+					}
+					else {
+						throw(isNotDigit);
+					}
+				}
+				for (int j = 0;j < textBox2->Text->Length;j++) {
+					if (isdigit(textBox2->Text[j])) {
+						continue;
+					}
+					else {
+						throw(isNotDigit);
+					}
+				}
+				result = inverseModulo(System::Convert::ToInt32(textBox1->Text), System::Convert::ToInt32(textBox2->Text));
+			}
+			label6->Text = System::Convert::ToString(result);
 		}
-		else if (radioButton2->Checked == true) {
-			result = inverseModulo(System::Convert::ToInt32(textBox1->Text), System::Convert::ToInt32(textBox2->Text));
+		catch (string errorNum) {
+			if (errorNum == "100") {
+				MessageBox::Show("Do you know what is digit?");
+			}
+			else if (errorNum == "101") {
+				MessageBox::Show("Fill in the blanks!");
+			}
+			else if (errorNum == "102") {
+				MessageBox::Show("Please select an operation!");
+			}
 		}
-		label6->Text = System::Convert::ToString(result);
 	}
 	private: System::Void label2_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
