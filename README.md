@@ -20,6 +20,7 @@ My environment:
 
 ## Roadmap
 1. Add the Mod function
-2. idk
+2. Add the Heron's formula
+3. idk
 
 ## 
