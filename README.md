@@ -10,7 +10,7 @@ My environment:
 ```
 
 1. Open Visual Studio
-2. Choose 'Clone a repository' or 'Open a project or solution'
+2. Choose ```Clone a repository``` or ```Open a project or solution```
 3. Run
 4. OK
 
