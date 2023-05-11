@@ -1,4 +1,4 @@
-# MathOperationTest
+# MathOperation
 This is my first C++ program with GUI. Select an operation and calculate the answer.
 
 ## How to build
@@ -17,10 +17,11 @@ My environment:
 ## Features
 1. Find the greatest common divisor
 2. Find the inverse modulo
+3. Find the area of triangle through Heron's formula
 
 ## Roadmap
-1. Add the Mod function
-2. Add the Heron's formula
-3. idk
+1. Add the Mod function          [v]
+2. Add the Heron's formula       [v]
+3. Add the Least Common Multiple [ ]
 
 ## 
