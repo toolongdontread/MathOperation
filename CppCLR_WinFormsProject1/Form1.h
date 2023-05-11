@@ -408,7 +408,7 @@ namespace CppCLRWinFormsProject {
 						throw(isNotDigit);
 					}
 				}
-				//result = inverseModulo(System::Convert::ToInt64(textBox1->Text), System::Convert::ToInt64(textBox2->Text));
+				result = 0;
 			}
 			label6->Text = System::Convert::ToString(result);
 		}
