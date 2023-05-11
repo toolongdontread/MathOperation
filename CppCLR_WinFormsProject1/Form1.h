@@ -2,7 +2,6 @@
 #include <ctype.h>
 #include <string>
 
-
 namespace CppCLRWinFormsProject {
 
 	using namespace System;
@@ -34,10 +33,22 @@ namespace CppCLRWinFormsProject {
 			return c;
 		}
 		int inverseModulo(int a, int b) {
-			if (a < 0 || b <= 0 || b%a == 0 || b < a) return 0;
+			if (a < 0 || b <= 0 || isCoprime(a,b) == false) return 0;
+			else if (a == b || b < a) return a % b;
 			int c = 0;
 			while (a * c % b != 1) c++;
 			return c;
+		}
+		int heronsFormula(int a, int b, int c) {
+			int s = (a + b + c) / 2;
+			return sqrt(s * (s - a) * (s - b) * (s - c));
+		}
+		int lcm(int a, int b) {
+			return 0;
+		}
+		bool isCoprime(int a, int b) {
+			if (gcd(a, b) == 1) return true;
+			return false;
 		}
 
 	protected:
@@ -63,10 +74,15 @@ namespace CppCLRWinFormsProject {
 	private: System::Windows::Forms::Label^ label4;
 	private: System::Windows::Forms::Label^ label5;
 	private: System::Windows::Forms::Label^ label6;
+	private: System::Windows::Forms::Label^ label7;
 	private: System::Windows::Forms::GroupBox^ groupBox1;
-	private: System::Windows::Forms::RadioButton^ radioButton2;
-	private: System::Windows::Forms::RadioButton^ radioButton1;
+
 	private: System::ComponentModel::BackgroundWorker^ backgroundWorker1;
+	private: System::Windows::Forms::ComboBox^ comboBox1;
+
+	private: System::Windows::Forms::TextBox^ textBox3;
+	private: System::Windows::Forms::Label^ label1;
+	private: System::Windows::Forms::GroupBox^ groupBox2;
 
 
 
@@ -94,16 +110,20 @@ namespace CppCLRWinFormsProject {
 			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
-			this->radioButton2 = (gcnew System::Windows::Forms::RadioButton());
-			this->radioButton1 = (gcnew System::Windows::Forms::RadioButton());
+			this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
 			this->backgroundWorker1 = (gcnew System::ComponentModel::BackgroundWorker());
+			this->label7 = (gcnew System::Windows::Forms::Label());
+			this->textBox3 = (gcnew System::Windows::Forms::TextBox());
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
 			this->groupBox1->SuspendLayout();
+			this->groupBox2->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// textBox1
 			// 
 			this->textBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10));
-			this->textBox1->Location = System::Drawing::Point(32, 135);
+			this->textBox1->Location = System::Drawing::Point(16, 48);
 			this->textBox1->Name = L"textBox1";
 			this->textBox1->Size = System::Drawing::Size(100, 23);
 			this->textBox1->TabIndex = 3;
@@ -111,7 +131,7 @@ namespace CppCLRWinFormsProject {
 			// textBox2
 			// 
 			this->textBox2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10));
-			this->textBox2->Location = System::Drawing::Point(166, 135);
+			this->textBox2->Location = System::Drawing::Point(153, 48);
 			this->textBox2->Name = L"textBox2";
 			this->textBox2->Size = System::Drawing::Size(100, 23);
 			this->textBox2->TabIndex = 4;
@@ -120,7 +140,7 @@ namespace CppCLRWinFormsProject {
 			// 
 			this->label2->AutoSize = true;
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12));
-			this->label2->Location = System::Drawing::Point(34, 112);
+			this->label2->Location = System::Drawing::Point(12, 25);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(55, 20);
 			this->label2->TabIndex = 5;
@@ -131,7 +151,7 @@ namespace CppCLRWinFormsProject {
 			// 
 			this->label3->AutoSize = true;
 			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12));
-			this->label3->Location = System::Drawing::Point(171, 112);
+			this->label3->Location = System::Drawing::Point(149, 25);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(55, 20);
 			this->label3->TabIndex = 6;
@@ -140,7 +160,7 @@ namespace CppCLRWinFormsProject {
 			// button1
 			// 
 			this->button1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12));
-			this->button1->Location = System::Drawing::Point(294, 134);
+			this->button1->Location = System::Drawing::Point(38, 179);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(88, 28);
 			this->button1->TabIndex = 7;
@@ -152,7 +172,7 @@ namespace CppCLRWinFormsProject {
 			// 
 			this->label4->AutoSize = true;
 			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10));
-			this->label4->Location = System::Drawing::Point(138, 141);
+			this->label4->Location = System::Drawing::Point(122, 54);
 			this->label4->Name = L"label4";
 			this->label4->Size = System::Drawing::Size(12, 17);
 			this->label4->TabIndex = 8;
@@ -162,7 +182,7 @@ namespace CppCLRWinFormsProject {
 			// 
 			this->label5->AutoSize = true;
 			this->label5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12));
-			this->label5->Location = System::Drawing::Point(34, 179);
+			this->label5->Location = System::Drawing::Point(34, 224);
 			this->label5->Name = L"label5";
 			this->label5->Size = System::Drawing::Size(59, 20);
 			this->label5->TabIndex = 9;
@@ -172,7 +192,7 @@ namespace CppCLRWinFormsProject {
 			// 
 			this->label6->AutoSize = true;
 			this->label6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12));
-			this->label6->Location = System::Drawing::Point(34, 221);
+			this->label6->Location = System::Drawing::Point(34, 276);
 			this->label6->Name = L"label6";
 			this->label6->Size = System::Drawing::Size(13, 20);
 			this->label6->TabIndex = 10;
@@ -180,8 +200,7 @@ namespace CppCLRWinFormsProject {
 			// 
 			// groupBox1
 			// 
-			this->groupBox1->Controls->Add(this->radioButton2);
-			this->groupBox1->Controls->Add(this->radioButton1);
+			this->groupBox1->Controls->Add(this->comboBox1);
 			this->groupBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14));
 			this->groupBox1->Location = System::Drawing::Point(32, 26);
 			this->groupBox1->Name = L"groupBox1";
@@ -190,51 +209,83 @@ namespace CppCLRWinFormsProject {
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Select an operation: ";
 			// 
-			// radioButton2
+			// comboBox1
 			// 
-			this->radioButton2->AutoSize = true;
-			this->radioButton2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12));
-			this->radioButton2->Location = System::Drawing::Point(279, 28);
-			this->radioButton2->Name = L"radioButton2";
-			this->radioButton2->Size = System::Drawing::Size(135, 24);
-			this->radioButton2->TabIndex = 1;
-			this->radioButton2->TabStop = true;
-			this->radioButton2->Text = L"Inverse Modulo";
-			this->radioButton2->UseVisualStyleBackColor = true;
-			this->radioButton2->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButton2_Checked);
+			this->comboBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10));
+			this->comboBox1->FormattingEnabled = true;
+			this->comboBox1->Items->AddRange(gcnew cli::array< System::Object^  >(4) {
+				L"Greatest Common Divisor", L"Heron\'s Formula",
+					L"Inverse Modulo", L"Largest Common Multiple"
+			});
+			this->comboBox1->Location = System::Drawing::Point(16, 28);
+			this->comboBox1->Name = L"comboBox1";
+			this->comboBox1->Size = System::Drawing::Size(237, 24);
+			this->comboBox1->TabIndex = 12;
+			this->comboBox1->Text = L"- -";
+			this->comboBox1->SelectedIndexChanged += gcnew System::EventHandler(this, &Form1::comboBox1_SelectedIndexChanged);
 			// 
-			// radioButton1
+			// label7
 			// 
-			this->radioButton1->AutoSize = true;
-			this->radioButton1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12));
-			this->radioButton1->Location = System::Drawing::Point(6, 28);
-			this->radioButton1->Name = L"radioButton1";
-			this->radioButton1->Size = System::Drawing::Size(209, 24);
-			this->radioButton1->TabIndex = 0;
-			this->radioButton1->TabStop = true;
-			this->radioButton1->Text = L"Greatest Common Divisor";
-			this->radioButton1->UseVisualStyleBackColor = true;
-			this->radioButton1->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButton1_Checked);
+			this->label7->AutoSize = true;
+			this->label7->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12));
+			this->label7->Location = System::Drawing::Point(288, 25);
+			this->label7->Name = L"label7";
+			this->label7->Size = System::Drawing::Size(55, 20);
+			this->label7->TabIndex = 12;
+			this->label7->Text = L"Num3:";
+			// 
+			// textBox3
+			// 
+			this->textBox3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10));
+			this->textBox3->Location = System::Drawing::Point(292, 48);
+			this->textBox3->Name = L"textBox3";
+			this->textBox3->Size = System::Drawing::Size(100, 23);
+			this->textBox3->TabIndex = 13;
+			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10));
+			this->label1->Location = System::Drawing::Point(259, 54);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(12, 17);
+			this->label1->TabIndex = 14;
+			this->label1->Text = L" ";
+			// 
+			// groupBox2
+			// 
+			this->groupBox2->Controls->Add(this->label2);
+			this->groupBox2->Controls->Add(this->label1);
+			this->groupBox2->Controls->Add(this->textBox1);
+			this->groupBox2->Controls->Add(this->textBox3);
+			this->groupBox2->Controls->Add(this->textBox2);
+			this->groupBox2->Controls->Add(this->label7);
+			this->groupBox2->Controls->Add(this->label3);
+			this->groupBox2->Controls->Add(this->label4);
+			this->groupBox2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14));
+			this->groupBox2->Location = System::Drawing::Point(32, 95);
+			this->groupBox2->Name = L"groupBox2";
+			this->groupBox2->Size = System::Drawing::Size(420, 78);
+			this->groupBox2->TabIndex = 13;
+			this->groupBox2->TabStop = false;
+			this->groupBox2->Text = L"Input:";
 			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(484, 461);
+			this->Controls->Add(this->groupBox2);
 			this->Controls->Add(this->groupBox1);
 			this->Controls->Add(this->label6);
 			this->Controls->Add(this->label5);
-			this->Controls->Add(this->label4);
 			this->Controls->Add(this->button1);
-			this->Controls->Add(this->label3);
-			this->Controls->Add(this->label2);
-			this->Controls->Add(this->textBox2);
-			this->Controls->Add(this->textBox1);
 			this->Name = L"Form1";
 			this->Text = L"Math Test";
 			this->Load += gcnew System::EventHandler(this, &Form1::Form1_Load);
 			this->groupBox1->ResumeLayout(false);
-			this->groupBox1->PerformLayout();
+			this->groupBox2->ResumeLayout(false);
+			this->groupBox2->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -242,47 +293,19 @@ namespace CppCLRWinFormsProject {
 #pragma endregion
 	private: System::Void Form1_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
-	private: System::Void radioButton1_Checked(System::Object^ sender, System::EventArgs^ e) {
-		label4->Text = ",";
-		label6->Text = " ";
-	}
-	private: System::Void radioButton2_Checked(System::Object^ sender, System::EventArgs^ e) {
-		label4->Text = "%";
-		label6->Text = " ";
-	}
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 		int result;
 		string isNotDigit = "100";
 		string emptyString = "101";
 		string emptyOpr = "102";
 		try {
-			if (radioButton1->Checked == false && radioButton2->Checked == false) {
+			if (comboBox1->Text == "- -") {
 				throw(emptyOpr);
 			}
-			else if (radioButton1->Checked == true) {
-				if (textBox1->Text->Length < 1 || textBox2->Text->Length < 1) {
-					throw(emptyString);
-				}
-				for (int i = 0;i < textBox1->Text->Length;i++) {
-					if (isdigit(textBox1->Text[i])) {
-						continue;
-					}
-					else {
-						throw(isNotDigit);
-					}
-				}
-				for (int j = 0;j < textBox2->Text->Length;j++) {
-					if (isdigit(textBox2->Text[j])) {
-						continue;
-					}
-					else {
-						throw(isNotDigit);
-					}
-				}
-				result = gcd(System::Convert::ToInt32(textBox1->Text), System::Convert::ToInt32(textBox2->Text));
-			}
+			else if (comboBox1->SelectedItem == "Greatest Common Divisor") {
+				label4->Text = ",";
+				label6->Text = " ";
 
-			else if (radioButton2->Checked == true) {
 				if (textBox1->Text->Length < 1 || textBox2->Text->Length < 1) {
 					throw(emptyString);
 				}
@@ -302,7 +325,90 @@ namespace CppCLRWinFormsProject {
 						throw(isNotDigit);
 					}
 				}
-				result = inverseModulo(System::Convert::ToInt32(textBox1->Text), System::Convert::ToInt32(textBox2->Text));
+				result = gcd(System::Convert::ToInt64(textBox1->Text), System::Convert::ToInt64(textBox2->Text));
+			}
+			else if (comboBox1->SelectedItem == "Heron's Formula") {
+				label4->Text = ",";
+				label6->Text = " ";
+
+				if (textBox1->Text->Length < 1 || textBox2->Text->Length < 1 || textBox3->Text->Length < 1) {
+					throw(emptyString);
+				}
+				for (int i = 0;i < textBox1->Text->Length;i++) {
+					if (isdigit(textBox1->Text[i])) {
+						continue;
+					}
+					else {
+						throw(isNotDigit);
+					}
+				}
+				for (int j = 0;j < textBox2->Text->Length;j++) {
+					if (isdigit(textBox2->Text[j])) {
+						continue;
+					}
+					else {
+						throw(isNotDigit);
+					}
+				}
+				for (int k = 0;k < textBox3->Text->Length;k++) {
+					if (isdigit(textBox3->Text[k])) {
+						continue;
+					}
+					else {
+						throw(isNotDigit);
+					}
+				}
+				result = heronsFormula(System::Convert::ToInt64(textBox1->Text), System::Convert::ToInt64(textBox2->Text), System::Convert::ToInt64(textBox3->Text));
+			}
+			else if (comboBox1->SelectedItem == "Inverse Modulo") {
+				label4->Text = "%";
+				label6->Text = " ";
+
+				if (textBox1->Text->Length < 1 || textBox2->Text->Length < 1) {
+					throw(emptyString);
+				}
+				for (int i = 0;i < textBox1->Text->Length;i++) {
+					if (isdigit(textBox1->Text[i])) {
+						continue;
+					}
+					else {
+						throw(isNotDigit);
+					}
+				}
+				for (int j = 0;j < textBox2->Text->Length;j++) {
+					if (isdigit(textBox2->Text[j])) {
+						continue;
+					}
+					else {
+						throw(isNotDigit);
+					}
+				}
+				result = inverseModulo(System::Convert::ToInt64(textBox1->Text), System::Convert::ToInt64(textBox2->Text));
+			}
+			else if (comboBox1->SelectedItem == "Largest Common Multiple") {
+				label4->Text = ",";
+				label6->Text = " ";
+
+				if (textBox1->Text->Length < 1 || textBox2->Text->Length < 1) {
+					throw(emptyString);
+				}
+				for (int i = 0;i < textBox1->Text->Length;i++) {
+					if (isdigit(textBox1->Text[i])) {
+						continue;
+					}
+					else {
+						throw(isNotDigit);
+					}
+				}
+				for (int j = 0;j < textBox2->Text->Length;j++) {
+					if (isdigit(textBox2->Text[j])) {
+						continue;
+					}
+					else {
+						throw(isNotDigit);
+					}
+				}
+				//result = inverseModulo(System::Convert::ToInt64(textBox1->Text), System::Convert::ToInt64(textBox2->Text));
 			}
 			label6->Text = System::Convert::ToString(result);
 		}
@@ -319,6 +425,32 @@ namespace CppCLRWinFormsProject {
 		}
 	}
 	private: System::Void label2_Click(System::Object^ sender, System::EventArgs^ e) {
+	}
+	private: System::Void comboBox1_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+		if (comboBox1->SelectedItem == "Greatest Common Divisor") {
+			textBox3->Enabled = false;
+			label4->Text = ",";
+			label1->Text = " ";
+			label6->Text = " ";
+		}
+		else if (comboBox1->SelectedItem == "Largest Common Multiple") {
+			textBox3->Enabled = false;
+			label4->Text = ",";
+			label1->Text = " ";
+			label6->Text = "We are working on this function";
+		}
+		else if (comboBox1->SelectedItem == "Heron's Formula") {
+			textBox3->Enabled = true;
+			label4->Text = ",";
+			label1->Text = ",";
+			label6->Text = " ";
+		}
+		else if (comboBox1->SelectedItem == "Inverse Modulo") {
+			textBox3->Enabled = false;
+			label4->Text = "%";
+			label1->Text = " ";
+			label6->Text = " ";
+		}
 	}
 };
 }
