@@ -20,8 +20,8 @@ My environment:
 3. Find the area of triangle through Heron's formula
 
 ## Roadmap
-1. Add the Mod function          [v]
-2. Add the Heron's formula       [v]
-3. Add the Least Common Multiple [ ]
+1. [v] Add the Mod function
+2. [v] Add the Heron's formula
+3. [] Add the Least Common Multiple
 
 ## 
