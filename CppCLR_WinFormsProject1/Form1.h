@@ -44,7 +44,19 @@ namespace CppCLRWinFormsProject {
 			return sqrt(s * (s - a) * (s - b) * (s - c));
 		}
 		int lcm(int a, int b) {
-			return 0;
+			int c = 1;
+			for (int i = 0;i < b;i++) {
+				if (a > b) {
+					if (a * c % b != 0) c++;
+					else { break; }
+				}
+				else if (a < b) {
+					if (b * c % a != 0) c++;
+					else { break; }
+				}
+			}
+			if (a>b) return a * c;
+			return b * c;
 		}
 		bool isCoprime(int a, int b) {
 			if (gcd(a, b) == 1) return true;
@@ -215,7 +227,7 @@ namespace CppCLRWinFormsProject {
 			this->comboBox1->FormattingEnabled = true;
 			this->comboBox1->Items->AddRange(gcnew cli::array< System::Object^  >(4) {
 				L"Greatest Common Divisor", L"Heron\'s Formula",
-					L"Inverse Modulo", L"Largest Common Multiple"
+					L"Inverse Modulo", L"Least Common Multiple"
 			});
 			this->comboBox1->Location = System::Drawing::Point(16, 28);
 			this->comboBox1->Name = L"comboBox1";
@@ -298,6 +310,8 @@ namespace CppCLRWinFormsProject {
 		string isNotDigit = "100";
 		string emptyString = "101";
 		string emptyOpr = "102";
+		string isNegative = "103";
+
 		try {
 			if (comboBox1->Text == "- -") {
 				throw(emptyOpr);
@@ -313,6 +327,9 @@ namespace CppCLRWinFormsProject {
 					if (isdigit(textBox1->Text[i])) {
 						continue;
 					}
+					else if (textBox1->Text[0] == '-') {
+						throw(isNegative);
+					}
 					else {
 						throw(isNotDigit);
 					}
@@ -320,6 +337,9 @@ namespace CppCLRWinFormsProject {
 				for (int j = 0;j < textBox2->Text->Length;j++) {
 					if (isdigit(textBox2->Text[j])) {
 						continue;
+					}
+					else if (textBox2->Text[0] == '-') {
+						throw(isNegative);
 					}
 					else {
 						throw(isNotDigit);
@@ -338,6 +358,9 @@ namespace CppCLRWinFormsProject {
 					if (isdigit(textBox1->Text[i])) {
 						continue;
 					}
+					else if (textBox1->Text[0] == '-') {
+						throw(isNegative);
+					}
 					else {
 						throw(isNotDigit);
 					}
@@ -346,6 +369,9 @@ namespace CppCLRWinFormsProject {
 					if (isdigit(textBox2->Text[j])) {
 						continue;
 					}
+					else if (textBox2->Text[0] == '-') {
+						throw(isNegative);
+					}
 					else {
 						throw(isNotDigit);
 					}
@@ -353,6 +379,9 @@ namespace CppCLRWinFormsProject {
 				for (int k = 0;k < textBox3->Text->Length;k++) {
 					if (isdigit(textBox3->Text[k])) {
 						continue;
+					}
+					else if (textBox3->Text[0] == '-') {
+						throw(isNegative);
 					}
 					else {
 						throw(isNotDigit);
@@ -371,6 +400,9 @@ namespace CppCLRWinFormsProject {
 					if (isdigit(textBox1->Text[i])) {
 						continue;
 					}
+					else if (textBox1->Text[0] == '-') {
+						throw(isNegative);
+					}
 					else {
 						throw(isNotDigit);
 					}
@@ -379,13 +411,16 @@ namespace CppCLRWinFormsProject {
 					if (isdigit(textBox2->Text[j])) {
 						continue;
 					}
+					else if (textBox2->Text[0] == '-') {
+						throw(isNegative);
+					}
 					else {
 						throw(isNotDigit);
 					}
 				}
 				result = inverseModulo(System::Convert::ToInt64(textBox1->Text), System::Convert::ToInt64(textBox2->Text));
 			}
-			else if (comboBox1->SelectedItem == "Largest Common Multiple") {
+			else if (comboBox1->SelectedItem == "Least Common Multiple") {
 				label4->Text = ",";
 				label6->Text = " ";
 
@@ -396,6 +431,9 @@ namespace CppCLRWinFormsProject {
 					if (isdigit(textBox1->Text[i])) {
 						continue;
 					}
+					else if (textBox1->Text[0] == '-') {
+						throw(isNegative);
+					}
 					else {
 						throw(isNotDigit);
 					}
@@ -404,11 +442,14 @@ namespace CppCLRWinFormsProject {
 					if (isdigit(textBox2->Text[j])) {
 						continue;
 					}
+					else if (textBox2->Text[0] == '-') {
+						throw(isNegative);
+					}
 					else {
 						throw(isNotDigit);
 					}
 				}
-				result = 0;
+				result = lcm(System::Convert::ToInt64(textBox1->Text), System::Convert::ToInt64(textBox2->Text));
 			}
 			label6->Text = System::Convert::ToString(result);
 		}
@@ -420,7 +461,10 @@ namespace CppCLRWinFormsProject {
 				MessageBox::Show("Fill in the blanks!");
 			}
 			else if (errorNum == "102") {
-				MessageBox::Show("Please select an operation!");
+				MessageBox::Show("Select an operation!");
+			}
+			else if (errorNum == "103") {
+				MessageBox::Show("Negative number is not allowed!");
 			}
 		}
 	}
@@ -433,11 +477,11 @@ namespace CppCLRWinFormsProject {
 			label1->Text = " ";
 			label6->Text = " ";
 		}
-		else if (comboBox1->SelectedItem == "Largest Common Multiple") {
+		else if (comboBox1->SelectedItem == "Least Common Multiple") {
 			textBox3->Enabled = false;
 			label4->Text = ",";
 			label1->Text = " ";
-			label6->Text = "We are working on this function";
+			label6->Text = " ";
 		}
 		else if (comboBox1->SelectedItem == "Heron's Formula") {
 			textBox3->Enabled = true;
