@@ -41,6 +41,7 @@ namespace CppCLRWinFormsProject {
 		}
 		int heronsFormula(int a, int b, int c) {
 			int s = (a + b + c) / 2;
+			if (s - a <= 0 || s - b <= 0 || s - c <= 0) return 0;
 			return sqrt(s * (s - a) * (s - b) * (s - c));
 		}
 		int lcm(int a, int b) {
