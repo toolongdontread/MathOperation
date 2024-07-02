@@ -1,6 +1,7 @@
 #pragma once
 #include <ctype.h>
 #include <string>
+#include <algorithm>
 
 namespace CppCLRWinFormsProject {
 
@@ -25,6 +26,7 @@ namespace CppCLRWinFormsProject {
 			//TODO: Add the constructor code here
 			//
 		}
+
 		int gcd(int a, int b) {
 			if (a <= 0 || b <= 0) return 0;
 			int c = b;
@@ -32,6 +34,7 @@ namespace CppCLRWinFormsProject {
 			if (d != 0) return gcd(c, d);
 			return c;
 		}
+
 		int inverseModulo(int a, int b) {
 			if (a < 0 || b <= 0 || isCoprime(a,b) == false) return 0;
 			else if (a == b || b < a) return a % b;
@@ -39,11 +42,13 @@ namespace CppCLRWinFormsProject {
 			while (a * c % b != 1) c++;
 			return c;
 		}
+
 		int heronsFormula(int a, int b, int c) {
 			int s = (a + b + c) / 2;
 			if (s - a <= 0 || s - b <= 0 || s - c <= 0) return 0;
 			return sqrt(s * (s - a) * (s - b) * (s - c));
 		}
+
 		int lcm(int a, int b) {
 			int c = 1;
 			for (int i = 0;i < b;i++) {
@@ -59,11 +64,25 @@ namespace CppCLRWinFormsProject {
 			if (a>b) return a * c;
 			return b * c;
 		}
+
 		bool isCoprime(int a, int b) {
 			if (gcd(a, b) == 1) return true;
 			return false;
 		}
 
+		int base10Tobase2(int a) {
+			string s;
+
+			if (a == 0) s += "0";
+
+			while (a > 0) {
+				s += to_string(a % 2);
+				a = (a - a % 2) / 2;
+			}
+			reverse(s.begin(), s.end());
+
+			return stoi(s);
+		}
 	protected:
 		/// <summary>
 		/// Clean up any resources being used.
@@ -226,9 +245,9 @@ namespace CppCLRWinFormsProject {
 			// 
 			this->comboBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10));
 			this->comboBox1->FormattingEnabled = true;
-			this->comboBox1->Items->AddRange(gcnew cli::array< System::Object^  >(4) {
+			this->comboBox1->Items->AddRange(gcnew cli::array< System::Object^  >(5) {
 				L"Greatest Common Divisor", L"Heron\'s Formula",
-					L"Inverse Modulo", L"Least Common Multiple"
+					L"Inverse Modulo", L"Least Common Multiple", L"Base10 to Base2"
 			});
 			this->comboBox1->Location = System::Drawing::Point(16, 28);
 			this->comboBox1->Name = L"comboBox1";
@@ -312,11 +331,13 @@ namespace CppCLRWinFormsProject {
 		string emptyString = "101";
 		string emptyOpr = "102";
 		string isNegative = "103";
+		string outOfRange = "104";
 
 		try {
 			if (comboBox1->Text == "- -") {
 				throw(emptyOpr);
 			}
+
 			else if (comboBox1->SelectedItem == "Greatest Common Divisor") {
 				label4->Text = ",";
 				label6->Text = " ";
@@ -348,6 +369,7 @@ namespace CppCLRWinFormsProject {
 				}
 				result = gcd(System::Convert::ToInt64(textBox1->Text), System::Convert::ToInt64(textBox2->Text));
 			}
+
 			else if (comboBox1->SelectedItem == "Heron's Formula") {
 				label4->Text = ",";
 				label6->Text = " ";
@@ -390,6 +412,7 @@ namespace CppCLRWinFormsProject {
 				}
 				result = heronsFormula(System::Convert::ToInt64(textBox1->Text), System::Convert::ToInt64(textBox2->Text), System::Convert::ToInt64(textBox3->Text));
 			}
+
 			else if (comboBox1->SelectedItem == "Inverse Modulo") {
 				label4->Text = "%";
 				label6->Text = " ";
@@ -421,6 +444,7 @@ namespace CppCLRWinFormsProject {
 				}
 				result = inverseModulo(System::Convert::ToInt64(textBox1->Text), System::Convert::ToInt64(textBox2->Text));
 			}
+
 			else if (comboBox1->SelectedItem == "Least Common Multiple") {
 				label4->Text = ",";
 				label6->Text = " ";
@@ -452,6 +476,35 @@ namespace CppCLRWinFormsProject {
 				}
 				result = lcm(System::Convert::ToInt64(textBox1->Text), System::Convert::ToInt64(textBox2->Text));
 			}
+
+			else if (comboBox1->SelectedItem == "Base10 to Base2") {
+				label4->Text = " ";
+				label6->Text = " ";
+
+				if (textBox1->Text->Length < 1) {
+					throw(emptyString);
+				}
+				
+				for (int i = 0; i < textBox1->Text->Length; i++) {
+					if (isdigit(textBox1->Text[i])) {
+						continue;
+					}
+					else if (textBox1->Text[0] == '-') {
+						throw(isNegative);
+					}
+					else {
+						throw(isNotDigit);
+					}
+				}
+
+				if (System::Convert::ToInt64(textBox1->Text) >= 1024) {
+					throw(outOfRange);
+				}
+
+				result = base10Tobase2(System::Convert::ToInt64(textBox1->Text));
+
+			}
+
 			label6->Text = System::Convert::ToString(result);
 		}
 		catch (string errorNum) {
@@ -466,6 +519,9 @@ namespace CppCLRWinFormsProject {
 			}
 			else if (errorNum == "103") {
 				MessageBox::Show("Negative number is not allowed!");
+			}
+			else if (errorNum == "104") {
+				MessageBox::Show("Please enter a number betwwen 0 to 1023");
 			}
 		}
 	}
@@ -493,6 +549,13 @@ namespace CppCLRWinFormsProject {
 		else if (comboBox1->SelectedItem == "Inverse Modulo") {
 			textBox3->Enabled = false;
 			label4->Text = "%";
+			label1->Text = " ";
+			label6->Text = " ";
+		}
+		else if (comboBox1->SelectedItem == "Base10 to Base2") {
+			textBox2->Enabled = false;
+			textBox3->Enabled = false;
+			label4->Text = " ";
 			label1->Text = " ";
 			label6->Text = " ";
 		}
