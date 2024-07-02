@@ -18,10 +18,14 @@ My environment:
 1. Find the greatest common divisor
 2. Find the inverse modulo
 3. Find the area of triangle through Heron's formula
+4. Find the least common multiple
+5. Convert base 10 integer to base 2
 
 ## Roadmap
-1. [v] Add the Mod function
-2. [v] Add the Heron's formula
-3. [] Add the Least Common Multiple
+1. [x] Add the Mod function
+2. [x] Add the Heron's formula
+3. [x] Add the Least Common Multiple
+4. [x] Add a base 10 to base 2 converter
+5. [ ] Add a base 2 to base 10 converter
 
 ## 
